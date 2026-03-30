@@ -80,5 +80,5 @@ exports.viewPosts = (req, res) => {
     const start = (page - 1) * limit;
     const paginatedPosts = posts.slice(start, start + limit);
 
-    res.render("posts", { posts: paginatedPosts, page, user: req.session.user });
+    res.render("posts", { posts: paginatedPosts, page, user: req.session.user || null });
 };

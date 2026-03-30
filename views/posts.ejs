@@ -229,7 +229,7 @@
         <% posts.forEach(post => { %>
             <div class="post">
 
-                <% if(post.username === user.username){ %>
+                <% if(user && post.username === user.username){ %>
                     <button class="delete-btn" onclick="openDeletePopup('<%= post.id %>')">
                         Delete
                     </button>
