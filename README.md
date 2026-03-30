@@ -70,8 +70,8 @@ It provides a RESTful API for managing posts, user authentication, and media upl
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/Pramira-Mindula/AF_Lab_06--Social-Media-Platform.git
+cd AF_Lab_06--Social-Media-Platform
 ```
 
 ### 2️⃣ Install dependencies
