@@ -70,7 +70,13 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
+        .post p {
+            line-height: 2;
+        }
+
         .post img {
+            height: 20%;
+            width: 20%;
             display: block;
             margin-top: 10px;
             max-width: 100%;
@@ -133,6 +139,62 @@
             font-style: italic;
             color: #555;
         }
+
+        .post{
+            position: relative;
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        /* delete button */
+        .delete-btn{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: crimson;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            cursor: pointer;
+        }
+
+        /* popup background */
+        .popup-overlay{
+            position: fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.2);
+            display:none;
+            justify-content:center;
+            align-items:center;
+        }
+
+        /* popup box */
+        .popup{
+            background:white;
+            padding:25px;
+            border-radius:8px;
+            text-align:center;
+        }
+
+        .popup-buttons{
+            margin-top:15px;
+        }
+
+        .popup-buttons button{
+            margin:5px;
+            padding:8px 15px;
+        }
+
+        .confirm-delete{
+            background:red;
+            color:white;
+        }
     </style>
 </head>
 <body>
@@ -166,13 +228,27 @@
 
         <% posts.forEach(post => { %>
             <div class="post">
+
+                <% if(post.username === user.username){ %>
+                    <button class="delete-btn" onclick="openDeletePopup('<%= post.id %>')">
+                        Delete
+                    </button>
+                <% } %>
+
                 <h3><%= post.title %></h3>
+
+                <small class="author">
+                    Posted by: <strong><%= post.username %></strong>
+                </small>
+
                 <p><%= post.content %></p>
+
                 <% if(post.image){ %>
                     <img src="/uploads/<%= post.image %>" alt="Post Image"/>
                 <% } %>
+
             </div>
-        <% }) %>
+            <% }) %>
     </div>
 
     <!-- Pagination -->
@@ -184,7 +260,7 @@
         <% if(posts.length === 5){ %>
             <a href="/api/posts/view?page=<%= page + 1 %>">Next</a>
         <% } %>
-    </div>
+    </div><br>
 
     <!-- Create Post Form -->
     <form id="postForm" enctype="multipart/form-data">
@@ -198,6 +274,19 @@
         </div><br>
         <button type="submit">Create Post</button>
     </form>
+
+    <div id="deletePopup" class="popup-overlay">
+        <div class="popup">
+            <h3>Delete Post?</h3>
+            <p>Are you sure you want to delete this post?</p>
+
+            <div class="popup-buttons">
+                <button onclick="closeDeletePopup()">Cancel</button>
+                <button class="confirm-delete" onclick="deletePost()">Delete</button>
+            </div>
+        </div>
+
+    </div>
 
 </div>
 
@@ -233,6 +322,7 @@
         if (res.ok) {
             localStorage.setItem("token", result.token);
             alert("Logged in successfully");
+            window.location.reload();
         } else {
             alert(result.message);
         }
@@ -269,6 +359,31 @@
             fileName.textContent = "No file chosen";
         }
     });
+
+    let deletePostId = null;
+
+    function openDeletePopup(id){
+        deletePostId = id;
+        document.getElementById("deletePopup").style.display = "flex";
+    }
+
+    function closeDeletePopup(){
+        document.getElementById("deletePopup").style.display = "none";
+    }
+
+    function deletePost(){
+        const token = localStorage.getItem("token"); // if auth is required
+        fetch(`/api/posts/${deletePostId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        })
+        .then(res => res.json())
+        .then(() => {
+            location.reload();
+        });
+    }
 </script>
 
 </body>
