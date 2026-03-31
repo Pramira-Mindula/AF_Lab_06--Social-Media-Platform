@@ -114,7 +114,9 @@ http://localhost:5000
 
 ### 📝 User Interface
 
-| `http://localhost:5000/api/posts/view` | View EJS Page |
+```
+`http://localhost:5000/api/posts/view`
+```
 
 ---
 
