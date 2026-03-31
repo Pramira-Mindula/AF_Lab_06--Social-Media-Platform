@@ -89,7 +89,7 @@ npm start
 👉 Server runs on:
 
 ```
-http://localhost:3000
+http://localhost:5000
 ```
 
 ---
@@ -111,6 +111,10 @@ http://localhost:3000
 | POST | `/api/posts` | Create new post |
 | PUT | `/api/posts/:id` | Update post (Owner only) |
 | DELETE | `/api/posts/:id` | Delete post (Owner only) |
+
+### 📝 User Interface
+
+| `http://localhost:5000/api/posts/view` | View EJS Page |
 
 ---
 
