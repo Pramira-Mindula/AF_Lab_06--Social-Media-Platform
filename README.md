@@ -115,7 +115,7 @@ http://localhost:5000
 ### 📝 User Interface
 
 ```
-`http://localhost:5000/api/posts/view`
+http://localhost:5000/api/posts/view
 ```
 
 ---
